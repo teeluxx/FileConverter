@@ -26,7 +26,7 @@ public class FileReader {
 			inputFileLines = br.lines().collect(Collectors.toList());
 			fileConstructor.createFile(inputFileLines, inputFile, outPutFile);
 		} catch (IOException e) {
-			e.printStackTrace();
+			//TODO Gestion de l'exception + log dans le fichier de logs
 		}
 	}
 

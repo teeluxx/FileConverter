@@ -66,6 +66,7 @@ public class FileConstructor {
 				reference.setPrice(Double.valueOf(line[2]));
 				reference.setSize(Integer.valueOf(line[3]));
 			} catch (NumberFormatException e){
+				//TODO log dans le fichier de logs
 				return null;
 			}
 
@@ -103,9 +104,9 @@ public class FileConstructor {
 		try {
 			ow.writeValue(new File(outPutFile + Util.JSON_EXTENSION), theFile);
 		} catch (JsonProcessingException e) {
-			e.printStackTrace();
+			//TODO Gestion de l'exception + log dans le fichier de logs
 		} catch (IOException e) {
-			e.printStackTrace();
+			//TODO Gestion de l'exception + log dans le fichier de logs
 		}	
 	}
 }
