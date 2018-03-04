@@ -5,12 +5,16 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 
 import fr.toure.hardis.model.ErrorFile;
+import fr.toure.hardis.model.FileType;
 import fr.toure.hardis.model.Reference;
 import fr.toure.hardis.model.file.TheFile;
 import fr.toure.hardis.utils.Util;
@@ -24,7 +28,7 @@ public class FileConstructor {
 	 * @param inputFile le nom du fichier en entrée
 	 * @param outPutFile le nom du fichier en sortie
 	 */
-	public void createFile(List<String> inputFileLines, String inputFile, String outPutFile){
+	public void createFile(List<String> inputFileLines, String inputFile, String outPutFile, String fileType){
 		TheFile theFile = new TheFile();
 
 		List<Reference> listReferences = new ArrayList<>();
@@ -42,7 +46,7 @@ public class FileConstructor {
 		theFile.setListReferences(listReferences);
 		theFile.setListErrors(listErrors);
 
-		writeToJSonFile(theFile, outPutFile);
+		writeToFile(theFile, outPutFile, fileType);
 	}
 
 	/**
@@ -69,7 +73,6 @@ public class FileConstructor {
 				//TODO log dans le fichier de logs
 				return null;
 			}
-
 			return reference;
 		} else {
 			return null;
@@ -93,6 +96,14 @@ public class FileConstructor {
 		return errorFile;
 	}
 
+	private void writeToFile(TheFile theFile, String outPutFile, String fileType){
+		if(FileType.JSON.name().equals(fileType.toUpperCase())){
+			writeToJSonFile(theFile, outPutFile);
+		} else if(FileType.XML.name().equals(fileType.toUpperCase())){
+			writeToXMLFile(theFile, outPutFile);
+		}
+	}
+
 	/**
 	 * Ecriture dans un fichier JSON
 	 * 
@@ -106,6 +117,20 @@ public class FileConstructor {
 		} catch (JsonProcessingException e) {
 			//TODO Gestion de l'exception + log dans le fichier de logs
 		} catch (IOException e) {
+			//TODO Gestion de l'exception + log dans le fichier de logs
+		}	
+	}
+
+	private void writeToXMLFile(TheFile theFile, String outPutFile){
+		try {
+			JAXBContext jaxbContext = JAXBContext.newInstance(TheFile.class);
+			Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+
+			// output pretty printed
+			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+
+			jaxbMarshaller.marshal(theFile, new File(outPutFile + Util.XML_EXTENSION));
+		} catch (JAXBException e) {
 			//TODO Gestion de l'exception + log dans le fichier de logs
 		}	
 	}

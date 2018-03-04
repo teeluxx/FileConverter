@@ -6,6 +6,7 @@ import fr.toure.hardis.model.Color;
 
 public class Util {
 	public static final String JSON_EXTENSION = ".json";
+	public static final String XML_EXTENSION = ".xml";
 	public static final String INCORRECT_VALUE = "Incorrect value";
 	
 	/**

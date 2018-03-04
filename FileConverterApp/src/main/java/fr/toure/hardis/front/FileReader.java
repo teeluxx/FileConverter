@@ -24,7 +24,7 @@ public class FileReader {
 
 		try (BufferedReader br = Files.newBufferedReader(Paths.get(inputFile))) {
 			inputFileLines = br.lines().collect(Collectors.toList());
-			fileConstructor.createFile(inputFileLines, inputFile, outPutFile);
+			fileConstructor.createFile(inputFileLines, inputFile, outPutFile, fileType);
 		} catch (IOException e) {
 			//TODO Gestion de l'exception + log dans le fichier de logs
 		}
