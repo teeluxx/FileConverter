@@ -96,6 +96,12 @@ public class FileConstructor {
 		return errorFile;
 	}
 
+	/**
+	 * Permet d'ecrire dans le bon type de fichier
+	 * @param theFile le fichier sous sa representation objet
+	 * @param outPutFile le fichier cible
+	 * @param fileType le type de fichier souhaité en sortie
+	 */
 	private void writeToFile(TheFile theFile, String outPutFile, String fileType){
 		if(FileType.JSON.name().equals(fileType.toUpperCase())){
 			writeToJSonFile(theFile, outPutFile);
